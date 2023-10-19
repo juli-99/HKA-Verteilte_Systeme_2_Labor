@@ -104,7 +104,7 @@ class Client:
         data = self.__call('GET_ALL')
         if data:
             num_of_entries = int(data)
-            return self.__call('OK', 32 * num_of_entries)
+            return self.__call('OK', buffer_size=32 * num_of_entries)
         else:
             return self.__call('Error')
 
