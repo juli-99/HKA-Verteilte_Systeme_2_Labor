@@ -97,25 +97,25 @@ class Client:
 
     def get(self, name):
         """retrieve number of the given name"""
-        self.sock.send(f'GET:{name}'.encode('utf-8'))  # send encoded string as data
+        self.sock.send(f'GET:{name}'.encode('utf-8'))  # send GET:name to the server
         self.logger.info(f'Call GET:{name} via {str(self.sock)}')
-        data = self.sock.recv(1024)  # receive the response
+        data = self.sock.recv(1024)  # receive the number
         self.logger.info('Received 1 entry')
         msg_out = data.decode('utf-8')
-        print(msg_out)  # print the result
+        print(msg_out)
         return msg_out
 
 
     def get_all(self):
         """retrieve all numbers"""
-        self.sock.send('GET_ALL'.encode('utf-8'))
+        self.sock.send('GET_ALL'.encode('utf-8'))  # send GET_ALL to the server
         self.logger.info(f'Call GET_ALL via {str(self.sock)}')
-        len = int(self.sock.recv(1024).decode('utf-8'))
-        self.sock.send('OK'.encode('utf-8'))
-        data = self.sock.recv(32 * len)
+        len = int(self.sock.recv(1024).decode('utf-8'))  # receive number of entries
+        self.sock.send('OK'.encode('utf-8')) # send confirmation
+        data = self.sock.recv(32 * len) # receive all entries
         self.logger.info(f'Received {len} entries')
-        msg_out = data.decode('utf-8')
-        print(msg_out)  # print the result
+        msg_out = data.decode('utf-8') 
+        print(msg_out)
         return msg_out
 
     def close(self):
