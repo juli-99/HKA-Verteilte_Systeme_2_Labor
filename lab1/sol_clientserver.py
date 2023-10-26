@@ -42,20 +42,21 @@ class Server:
                     if not data:
                         break  # stop if client stopped
                     decoded_data = data.decode('utf-8')
-                    msg_out = str('')
                     if decoded_data.startswith('GET:'): # client requests one entry: GET:name
-                        self._logger.info(f'GET:{decoded_data[4:]} requested via {str(self.sock)}')
-                        msg_out = str(self._data.get(decoded_data[4:], 'unknown key'))
-                        self._logger.info(f'Sent entry: {decoded_data[4:]} : {msg_out}')
-                    elif decoded_data.__eq__('GET_ALL'):  # client requests all entries: GET_ALL
+                        name = decoded_data[4:]
+                        self._logger.info(f'GET:{name} requested via {str(self.sock)}')
+                        msg_out = str(self._data.get(name, 'unknown key'))
+                        self._logger.info(f'Sent entry: {name} : {msg_out}')
+                    elif decoded_data == 'GET_ALL':  # client requests all entries: GET_ALL
                         self._logger.info(f'GET_ALL requested via {str(self.sock)}')
+                        msg_out = ''
                         for d in self._data:
                             msg_out += f'{d} : {self._data[d]}\n'
                         self._logger.info(f'Sent {len(self._data)} entries')
-                    elif decoded_data.__eq__('GET_NUM_OF_ENTRIES'): # client requests the number of entries
+                    elif decoded_data == 'GET_NUM_OF_ENTRIES': # client requests the number of entries
                         self._logger.info(f'GET_NUM_OF_ENTRIES requested via {str(self.sock)}')
                         msg_out = str(len(self._data))
-                        self._logger.info(f'Sent number of entries ({str(len(self._data))})')
+                        self._logger.info(f'Sent number of entries ({msg_out})')
                     else:
                         self._logger.info(f'unknown request via {str(self.sock)}')
                         msg_out = 'unknown operation'
