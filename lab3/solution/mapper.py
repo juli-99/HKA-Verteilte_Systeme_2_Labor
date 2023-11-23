@@ -18,11 +18,11 @@ def run():
 	while True:
 		line = pickle.loads(pull_socket.recv())
 
-		words = line.split()
+		words = line.lower().split()
 
 		for word in words:
 			num_code = ord(word[0])
-			if ord("a") <= num_code <= ord("m") or ord("A") <= num_code <= ord("M"):
+			if ord("a") <= num_code <= ord("m"):
 				push_socket1.send(pickle.dumps(word))
 			else:
 				push_socket2.send(pickle.dumps(word))
