@@ -1,0 +1,13 @@
+Uebersicht
+Wir wollen das berühmte Wordcount Beispiel für Hadoop MapReduce mit 0MQ nachprogrammieren (näherungsweise).
+Das Prinzip ist wie folgt:
+Das verteilte System besteht aus einem zentralen 'Split'-Prozess ('Splitter'),
+einer variablem Menge von 'Map'-Prozessen ('Mapper') und einer festen Menge von 'Reduce'-Prozessen ('Reducer').
+Der Splitter lädt aus einer Datei zeilenweise Sätze aus und verteilt sie als Nachrichten gleichmäßig an die die Mapper.
+Ein Mapper nimmt jeweils Sätze entgegen. Jeder Satz wird dann zunächst in seine Wörter zerlegt.
+Schließlich ordnet der Mapper jedes Wort nach einem festen Schema genau einem der Reducer zu und sendet es als Nachricht an diesen.
+Ein Reducer sammelt die an ihn geschickten Wörter ein und zählt sie.
+Beachten sie: durch das feste zuordnungsschema kommen alle gleichen Wörter beim selben Reducer an und dieser Zählt 'seine' Wörter also garantiert komplett.
+Das Gesamtergebnis ergibt sich aus der Vereinigung der Teilergebnisse aller Reducer.
+asdf
+Asdf
