@@ -12,9 +12,7 @@ me = int(sys.argv[1])
 address = "tcp://"+ const.REDUCER_SRC+":"+ str(int(const.REDUCER_PORT)+me)
 
 context = zmq.Context()
-
 pull_socket = context.socket(zmq.PULL)  # create a push socket
-
 pull_socket.bind(address)  # bind socket to address
 
 d = {}

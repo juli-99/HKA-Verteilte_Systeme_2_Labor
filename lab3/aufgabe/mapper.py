@@ -25,8 +25,6 @@ for i in range(const.NUM_REDUCERS):
     push_sockets.append(context.socket(zmq.PUSH)) # create a p push socket
     push_sockets[i].connect(reducer_address) # connect to reducer 
 
-time.sleep(1) 
-
 print(f"Mapper {me} started")
 
 while True:
@@ -34,15 +32,11 @@ while True:
     print(f'Mapper {me} received "{text}"')
     words = cleanText(text).split()
     d = {}
-    # Iterate over each word in line 
     for word in words: 
-        # Check if the word is already in dictionary 
-        if word in d: 
-            # Increment count of word by 1 
-            d[word] = d[word] + 1
-        else: 
-            # Add the word to dictionary with count 1 
+        if word not in d: 
             d[word] = 1
+        else: 
+            d[word] += 1
 
     for k in d: # send to reducer
         reducer = const.HASH(k)
