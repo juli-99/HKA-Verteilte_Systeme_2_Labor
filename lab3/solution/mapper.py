@@ -1,6 +1,8 @@
 import pickle
 import zmq
 
+import re
+
 import const_address
 
 def run():
@@ -18,11 +20,12 @@ def run():
 	while True:
 		line = pickle.loads(pull_socket.recv())
 
-		words = line.split()
+		pattern = r'[^\w ]' ##r'[^a-zäöü ]'
+		words = re.sub(pattern, '', line.lower()).split()
 
 		for word in words:
 			num_code = ord(word[0])
-			if ord("a") <= num_code <= ord("m") or ord("A") <= num_code <= ord("M"):
+			if ord("a") <= num_code <= ord("m"):
 				push_socket1.send(pickle.dumps(word))
 			else:
 				push_socket2.send(pickle.dumps(word))

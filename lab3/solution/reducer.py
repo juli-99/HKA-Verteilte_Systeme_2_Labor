@@ -29,4 +29,3 @@ def run(arg):
 			word_counts[word] += 1
 
 			print("reducer " + str(arg) + ": count=" + str(word_counts[word]) + ", word=" + word)
-
