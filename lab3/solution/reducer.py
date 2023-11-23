@@ -5,7 +5,7 @@ import zmq
 
 import const_address
 
-def run(var, arg):
+def run(arg):
 	address = ""
 	if arg == 1:
 		address = const_address.REDUCER1
@@ -17,10 +17,16 @@ def run(var, arg):
 	pull_socket = context.socket(zmq.PULL)
 	pull_socket.bind(address)
 
+	word_counts = {}
+
 	while True:
 		word = pickle.loads(pull_socket.recv())
 
 		if word != "":
-			var.value += 1
-			print("Reducer " + str(arg) + ": count=" + str(var.value) + ", word=" + word)
+			if not word in word_counts:
+				word_counts[word] = 0
+			
+			word_counts[word] += 1
+
+			print("reducer " + str(arg) + ": count=" + str(word_counts[word]) + ", word=" + word)
 

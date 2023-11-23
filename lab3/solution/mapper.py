@@ -22,7 +22,7 @@ def run():
 
 		for word in words:
 			num_code = ord(word[0])
-			if num_code <= ord("m") and num_code >= ord("a") or num_code <= ord("M") and num_code >= ord("A"):
+			if ord("a") <= num_code <= ord("m") or ord("A") <= num_code <= ord("M"):
 				push_socket1.send(pickle.dumps(word))
 			else:
 				push_socket2.send(pickle.dumps(word))
